@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>润 · Mini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tianqing:#a8c4c9;
+  --tianqing-deep:#88a8ae;
+  --yuebai:#f4f1ea;
+  --xuanzhi:#efe9dc;
+  --songyan:#2c3336;
+  --songyan-soft:#4d5459;
+  --songyan-mute:#8a8f92;
+  --qiuxiang:#c9a961;
+  --line:rgba(44,51,54,0.10);
+  --font-serif:"Noto Serif SC",serif;
+  --font-latin:"Fraunces",serif;
+  --ease:cubic-bezier(0.4,0,0.2,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html,body{height:100%;background:transparent;overflow:hidden;user-select:none}
+body{
+  font-family:var(--font-serif);
+  color:var(--songyan);
+  padding:12px;
+  animation:slideIn 0.45s var(--ease) both;
+}
+@keyframes slideIn{
+  from{opacity:0;transform:translateX(40px)}
+  to{opacity:1;transform:translateX(0)}
+}
+body.leaving{animation:slideOut 0.4s var(--ease) both}
+@keyframes slideOut{
+  from{opacity:1;transform:translateX(0)}
+  to{opacity:0;transform:translateX(40px)}
+}
+
+.card{
+  height:100%;
+  background:var(--yuebai);
+  border:1px solid var(--line);
+  border-left:3px solid var(--tianqing-deep);
+  border-radius:6px;
+  padding:16px 18px 14px;
+  display:flex;flex-direction:column;
+  gap:10px;
+  position:relative;
+  box-shadow:0 12px 36px rgba(44,51,54,0.16),0 2px 8px rgba(44,51,54,0.08);
+  -webkit-app-region:drag;
+}
+.card::before{
+  content:"";position:absolute;top:0;right:0;
+  width:60px;height:60px;
+  background:radial-gradient(circle at 100% 0%,rgba(168,196,201,0.28) 0%,transparent 70%);
+  pointer-events:none;border-radius:0 6px 0 0;
+}
+
+.top-row{
+  display:flex;align-items:baseline;justify-content:space-between;
+  padding-bottom:2px;
+}
+.brand{
+  display:flex;align-items:baseline;gap:8px;
+}
+.brand .glyph{
+  font-family:var(--font-serif);font-weight:400;font-size:16px;
+  color:var(--songyan);letter-spacing:0.08em;
+}
+.brand .latin{
+  font-family:var(--font-latin);font-weight:300;font-size:9px;
+  color:var(--songyan-mute);letter-spacing:0.2em;
+}
+.close-x{
+  -webkit-app-region:no-drag;
+  width:20px;height:20px;border:none;background:transparent;
+  color:var(--songyan-mute);cursor:pointer;
+  font-family:var(--font-latin);font-size:16px;font-weight:300;
+  line-height:1;transition:color 0.3s var(--ease);
+  display:flex;align-items:center;justify-content:center;
+}
+.close-x:hover{color:var(--songyan)}
+
+.whisper{
+  font-family:var(--font-serif);font-weight:400;font-size:14px;
+  line-height:1.65;color:var(--songyan);letter-spacing:0.03em;
+  padding:2px 0 4px;flex:1;
+}
+
+.meta{
+  font-family:var(--font-latin);font-weight:300;font-size:10px;
+  color:var(--songyan-mute);letter-spacing:0.12em;
+  display:flex;align-items:center;gap:8px;
+}
+.meta .dot{width:4px;height:4px;background:var(--tianqing-deep);border-radius:50%}
+.meta .zh{font-family:var(--font-serif);font-size:11px}
+
+.actions{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:6px;
+  -webkit-app-region:no-drag;
+}
+.actions button{
+  padding:8px 4px;
+  border:1px solid var(--line);
+  background:var(--xuanzhi);
+  color:var(--songyan);
+  font-family:var(--font-serif);font-weight:400;font-size:11px;
+  cursor:pointer;letter-spacing:0.05em;
+  transition:all 0.3s var(--ease);
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+.actions button:hover{
+  background:var(--tianqing);border-color:var(--tianqing-deep);
+  transform:translateY(-1px);
+}
+.actions button .ml{
+  font-family:var(--font-latin);font-weight:300;font-size:13px;
+  color:var(--songyan-soft);letter-spacing:0.02em;
+}
+.actions button:hover .ml{color:var(--songyan)}
+
+.snooze-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:2px;
+  -webkit-app-region:no-drag;
+}
+.snooze-row .hint{
+  font-family:var(--font-serif);font-weight:400;font-size:10px;
+  color:var(--songyan-mute);letter-spacing:0.06em;
+}
+.snooze-row button{
+  background:transparent;border:none;
+  font-family:var(--font-serif);font-weight:400;font-size:11px;
+  color:var(--songyan-soft);cursor:pointer;letter-spacing:0.06em;
+  border-bottom:1px dotted var(--songyan-mute);padding:1px 0;
+  transition:color 0.3s var(--ease);
+}
+.snooze-row button:hover{color:var(--songyan)}
+
+.progress{
+  position:absolute;bottom:0;left:0;
+  height:2px;background:var(--tianqing-deep);opacity:0.5;
+  width:100%;transform-origin:right;
+  animation:countdown 10s linear forwards;
+  border-radius:0 0 0 4px;
+}
+@keyframes countdown{
+  from{transform:scaleX(1)}
+  to{transform:scaleX(0)}
+}
+body.leaving .progress{animation:none}
+
+.thanks{
+  position:absolute;inset:0;
+  background:var(--yuebai);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:8px;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.5s var(--ease);
+  border-radius:6px;
+  border:1px solid var(--line);
+  border-left:3px solid var(--tianqing-deep);
+}
+.thanks.show{opacity:1}
+.thanks .msg{
+  font-family:var(--font-serif);font-weight:400;font-size:14px;
+  color:var(--songyan);letter-spacing:0.04em;
+  text-align:center;padding:0 20px;
+}
+.thanks .en{
+  font-family:var(--font-latin);font-weight:300;font-size:10px;
+  color:var(--songyan-mute);letter-spacing:0.2em;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="top-row">
+    <div class="brand">
+      <span class="glyph">润</span>
+      <span class="latin">RUNN</span>
+    </div>
+    <button class="close-x" id="close-x" title="关闭">×</button>
+  </div>
+
+  <div class="whisper" id="whisper">…</div>
+
+  <div class="meta">
+    <span class="dot"></span>
+    <span class="zh" id="progress-text">今日 0 / 2500 ml</span>
+  </div>
+
+  <div class="actions">
+    <button data-ml="125">
+      <span>一小口</span>
+      <span class="ml">125</span>
+    </button>
+    <button data-ml="250">
+      <span>一整杯</span>
+      <span class="ml">250</span>
+    </button>
+    <button data-ml="500">
+      <span>大杯</span>
+      <span class="ml">500</span>
+    </button>
+  </div>
+
+  <div class="snooze-row">
+    <span class="hint">10 秒后自动收起</span>
+    <button id="snooze">稍后 10 分钟</button>
+  </div>
+
+  <div class="progress" id="progress-bar"></div>
+
+  <div class="thanks" id="thanks">
+    <div class="msg" id="thanks-msg">已记下</div>
+    <div class="en">SEE YOU LATER</div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+const $ = s => document.querySelector(s);
+
+const CHECKIN_MSGS = [
+  ml => `这 ${ml}ml，会去到你手指的每一个关节`,
+  ml => `好，多留一层护垫在膝盖里`,
+  ml => `已记下，血尿酸浓度往下走一点点`,
+  ml => `${ml}ml，换的是明天不痛的一整天`,
+  ml => `关节镇今晚睡得会更安稳`,
+  ml => `多谢你想起，一次小小的润泽`
+];
+
+let autoTimer = null;
+let dismissed = false;
+
+function dismiss(snoozeMinutes){
+  if(dismissed) return;
+  dismissed = true;
+  if(autoTimer){ clearTimeout(autoTimer); autoTimer = null; }
+  document.body.classList.add("leaving");
+  setTimeout(() => {
+    if(window.runn){
+      window.runn.dismissMini(snoozeMinutes ? {snooze: snoozeMinutes} : {});
+    }
+  }, 380);
+}
+
+function checkin(ml){
+  if(dismissed) return;
+  if(window.runn){
+    window.runn.checkin(ml).then(() => {});
+  }
+  const msgFn = CHECKIN_MSGS[Math.floor(Math.random()*CHECKIN_MSGS.length)];
+  $("#thanks-msg").textContent = msgFn(ml);
+  $("#thanks").classList.add("show");
+  if(autoTimer){ clearTimeout(autoTimer); }
+  setTimeout(() => dismiss(0), 1600);
+}
+
+document.querySelectorAll(".actions button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const ml = parseInt(btn.dataset.ml, 10);
+    checkin(ml);
+  });
+});
+
+$("#snooze").addEventListener("click", () => dismiss(10));
+$("#close-x").addEventListener("click", () => dismiss(0));
+
+autoTimer = setTimeout(() => dismiss(0), 10000);
+
+if(window.runn){
+  window.runn.onWhisper((text) => {
+    $("#whisper").textContent = text;
+  });
+  window.runn.onStateUpdate((s) => {
+    $("#progress-text").textContent = `今日 ${s.ml} / ${s.target} ml`;
+  });
+  window.runn.getState().then(s => {
+    $("#progress-text").textContent = `今日 ${s.ml} / ${s.target} ml`;
+  });
+}
+
+})();
+</script>
+</body>
+</html>

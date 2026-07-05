@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>润 · Runn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Noto+Serif+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tianqing:#a8c4c9;
+  --tianqing-deep:#88a8ae;
+  --yuebai:#f4f1ea;
+  --xuanzhi:#efe9dc;
+  --xuanzhi-deep:#e4dcc9;
+  --songyan:#2c3336;
+  --songyan-soft:#4d5459;
+  --songyan-mute:#8a8f92;
+  --qiuxiang:#c9a961;
+  --feihong:#a3494a;
+  --shuiying:rgba(168,196,201,0.35);
+  --line:rgba(44,51,54,0.08);
+  --line-strong:rgba(44,51,54,0.16);
+  --font-serif:"Noto Serif SC",serif;
+  --font-latin:"Fraunces",serif;
+  --ease:cubic-bezier(0.4,0,0.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;user-select:none}
+html,body{height:100%}
+body{overflow-x:hidden;overflow-y:auto}
+body::-webkit-scrollbar{width:8px}
+body::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:4px}
+body::-webkit-scrollbar-track{background:transparent}
+body{
+  font-family:var(--font-serif);
+  background:var(--yuebai);
+  color:var(--songyan);
+  font-weight:400;letter-spacing:0.02em;
+  position:relative;
+}
+body::before{
+  content:"";position:fixed;inset:0;
+  background:radial-gradient(ellipse at 50% 30%,rgba(168,196,201,0.18) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 80%,rgba(201,169,97,0.06) 0%,transparent 55%);
+  pointer-events:none;z-index:0;
+}
+body::after{
+  content:"";position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.17 0 0 0 0 0.2 0 0 0 0 0.21 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1;opacity:0.4;mix-blend-mode:multiply;
+}
+
+.aura{
+  position:fixed;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--tianqing) 30%,var(--tianqing) 70%,transparent);
+  opacity:0;pointer-events:none;z-index:2;
+  animation:auraBreath 8s var(--ease) infinite;
+}
+.aura.bottom{top:auto;bottom:0;animation-delay:-4s}
+.aura.left{top:0;left:0;right:auto;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,transparent,var(--tianqing) 30%,var(--tianqing) 70%,transparent);animation-delay:-2s}
+.aura.right{top:0;left:auto;right:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,transparent,var(--tianqing) 30%,var(--tianqing) 70%,transparent);animation-delay:-6s}
+@keyframes auraBreath{0%,100%{opacity:0.08}50%{opacity:0.28}}
+body[data-state="meeting"] .aura{animation:none;opacity:0}
+body[data-state="break"] .aura{animation-duration:5s}
+
+.titlebar{
+  height:36px;
+  -webkit-app-region:drag;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 12px 0 20px;
+  position:relative;z-index:20;
+  background:transparent;
+  border-bottom:1px solid var(--line);
+}
+.titlebar .brand-mini{
+  display:flex;align-items:baseline;gap:8px;
+}
+.titlebar .brand-mini .glyph{
+  font-family:var(--font-serif);font-weight:400;font-size:15px;color:var(--songyan);letter-spacing:0.08em;
+}
+.titlebar .brand-mini .latin{
+  font-family:var(--font-latin);font-weight:300;font-size:10px;color:var(--songyan-mute);letter-spacing:0.2em;
+}
+.titlebar .window-controls{
+  display:flex;gap:2px;-webkit-app-region:no-drag;
+}
+.titlebar .window-controls button{
+  width:36px;height:28px;border:none;background:transparent;cursor:pointer;
+  color:var(--songyan-soft);font-family:var(--font-latin);font-size:14px;font-weight:300;
+  transition:all 0.3s var(--ease);
+  display:flex;align-items:center;justify-content:center;
+  border-radius:2px;
+}
+.titlebar .window-controls button:hover{background:rgba(44,51,54,0.06);color:var(--songyan)}
+.titlebar .window-controls button.close-btn:hover{background:var(--feihong);color:var(--yuebai)}
+
+.app{
+  position:relative;z-index:10;
+  min-height:calc(100vh - 36px);
+  display:flex;
+  flex-direction:column;
+  max-width:1280px;margin:0 auto;
+  padding:18px 48px 14px;
+}
+
+header.main-header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:baseline;gap:14px}
+.brand .glyph{
+  font-family:var(--font-serif);font-weight:400;font-size:34px;letter-spacing:0.1em;color:var(--songyan);
+  position:relative;
+}
+.brand .glyph::after{
+  content:"";position:absolute;bottom:6px;left:-4px;right:-4px;height:8px;
+  background:var(--tianqing);opacity:0.35;z-index:-1;border-radius:2px;
+}
+.brand .latin{font-family:var(--font-latin);font-weight:300;font-size:14px;color:var(--songyan-soft);letter-spacing:0.16em}
+.brand .divider{color:var(--songyan-mute);font-size:12px}
+.brand .date{font-family:var(--font-serif);font-weight:400;font-size:13px;color:var(--songyan-soft);letter-spacing:0.05em}
+.brand .date .almanac{color:var(--qiuxiang);margin-left:8px;font-size:12px}
+
+.state-switcher{
+  display:flex;background:var(--xuanzhi);border-radius:2px;padding:4px;gap:2px;
+  border:1px solid var(--line);
+}
+.state-switcher button{
+  font-family:var(--font-serif);font-weight:400;font-size:13px;
+  padding:8px 18px;border:none;background:transparent;color:var(--songyan-soft);cursor:pointer;
+  transition:all 0.35s var(--ease);letter-spacing:0.06em;
+}
+.state-switcher button.active{background:var(--yuebai);color:var(--songyan);box-shadow:0 1px 0 var(--line-strong)}
+.state-switcher button:hover:not(.active){color:var(--songyan)}
+.state-switcher button .en{
+  display:block;font-family:var(--font-latin);font-weight:300;font-size:9px;
+  letter-spacing:0.15em;color:var(--songyan-mute);margin-top:2px;text-transform:uppercase;
+}
+
+.stage{
+  position:relative;display:grid;grid-template-columns:1.1fr 1fr;
+  align-items:center;gap:40px;padding:10px 0 6px;
+  flex:1;
+}
+.vessel-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+.vessel{width:min(290px,78%);height:auto;aspect-ratio:1/1.05;filter:drop-shadow(0 24px 40px rgba(44,51,54,0.08))}
+.vessel .bowl-body{fill:var(--xuanzhi);stroke:var(--songyan);stroke-width:0.8}
+.vessel .bowl-rim{fill:none;stroke:var(--songyan);stroke-width:1;opacity:0.6}
+@keyframes waveMove1{0%{transform:translateX(0)}100%{transform:translateX(-50px)}}
+@keyframes waveMove2{0%{transform:translateX(0)}100%{transform:translateX(50px)}}
+.wave-anim-1{animation:waveMove1 6s linear infinite}
+.wave-anim-2{animation:waveMove2 8s linear infinite}
+@keyframes vesselBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.008)}}
+.vessel{animation:vesselBreath 6s var(--ease) infinite;transform-origin:center}
+body[data-state="meeting"] .vessel{animation-duration:10s}
+
+.numerics{display:flex;flex-direction:column;gap:18px;padding:0 12px}
+.today-headline{
+  font-family:var(--font-serif);font-weight:400;font-size:14px;color:var(--songyan-soft);
+  letter-spacing:0.12em;margin-bottom:6px;display:flex;align-items:center;gap:12px;
+}
+.today-headline::before{content:"";width:24px;height:1px;background:var(--songyan-mute)}
+.today-headline .en{font-family:var(--font-latin);font-weight:300;font-size:10px;color:var(--songyan-mute);letter-spacing:0.2em;margin-left:8px}
+
+.today-value{display:flex;align-items:baseline;gap:12px;font-family:var(--font-latin);font-weight:300}
+.today-value .num{
+  font-size:72px;line-height:0.9;color:var(--songyan);
+  letter-spacing:-0.03em;font-variant-numeric:tabular-nums;
+  transition:color 0.6s var(--ease);
+}
+.today-value .unit{font-size:20px;color:var(--songyan-soft);letter-spacing:0.05em}
+.today-value .target{font-size:16px;color:var(--songyan-mute);letter-spacing:0.05em;margin-left:auto;padding-right:8px}
+
+.progress-line{height:1px;background:var(--line);position:relative;margin:4px 0 8px}
+.progress-line::after{
+  content:"";position:absolute;left:0;top:-1px;height:3px;background:var(--tianqing);
+  width:var(--progress,25%);transition:width 1.4s var(--ease);
+}
+
+.whisper{
+  padding:14px 20px;
+  background:linear-gradient(135deg,rgba(168,196,201,0.14),rgba(168,196,201,0.06));
+  border-left:2px solid var(--tianqing-deep);
+  font-family:var(--font-serif);font-weight:400;font-size:14px;line-height:1.75;color:var(--songyan);
+  letter-spacing:0.04em;position:relative;min-height:58px;display:flex;align-items:center;
+}
+.whisper .text{position:relative;z-index:1;transition:opacity 0.4s var(--ease)}
+
+.checkin-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:8px 0 0}
+.checkin-btn{
+  padding:14px 16px;border:1px solid var(--line-strong);background:var(--xuanzhi);cursor:pointer;
+  font-family:var(--font-serif);font-weight:400;color:var(--songyan);
+  transition:all 0.4s var(--ease);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  position:relative;overflow:hidden;
+}
+.checkin-btn::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 100%,var(--tianqing) 0%,transparent 70%);
+  opacity:0;transition:opacity 0.5s var(--ease);
+}
+.checkin-btn:hover{border-color:var(--tianqing-deep);transform:translateY(-2px);box-shadow:0 8px 20px rgba(136,168,174,0.15)}
+.checkin-btn:hover::before{opacity:0.15}
+.checkin-btn:active{transform:translateY(0)}
+.checkin-btn .label{font-size:15px;letter-spacing:0.08em;position:relative;z-index:1}
+.checkin-btn .ml{font-family:var(--font-latin);font-weight:300;font-size:22px;color:var(--songyan-soft);letter-spacing:0.04em;position:relative;z-index:1}
+.checkin-btn .ml .u{font-size:12px;color:var(--songyan-mute);margin-left:4px}
+.checkin-btn[data-ml="125"] .ml{color:var(--tianqing-deep)}
+.checkin-btn[data-ml="250"] .ml{color:var(--songyan)}
+.checkin-btn[data-ml="500"] .ml{color:var(--qiuxiang)}
+
+.lower-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;padding-top:14px;border-top:1px solid var(--line)}
+
+.joint-town{display:flex;flex-direction:column;gap:12px}
+.joint-header{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:6px}
+.joint-header .title{font-family:var(--font-serif);font-weight:400;font-size:13px;color:var(--songyan-soft);letter-spacing:0.12em}
+.joint-header .title .en{font-family:var(--font-latin);font-weight:300;font-size:10px;color:var(--songyan-mute);letter-spacing:0.2em;margin-left:8px}
+
+.joint-metrics{display:flex;gap:32px;align-items:flex-end}
+.joint-metric{display:flex;flex-direction:column;gap:2px}
+.joint-metric .value{font-family:var(--font-latin);font-weight:300;font-size:38px;line-height:1;color:var(--songyan);letter-spacing:-0.02em;font-variant-numeric:tabular-nums}
+.joint-metric .value.warn{color:var(--qiuxiang)}
+.joint-metric .value.good{color:var(--tianqing-deep)}
+.joint-metric .value .u{font-size:14px;color:var(--songyan-mute);margin-left:6px;letter-spacing:0.05em}
+.joint-metric .label{font-family:var(--font-serif);font-weight:400;font-size:12px;color:var(--songyan-soft);letter-spacing:0.06em;line-height:1.5}
+
+.joint-diagram{
+  position:relative;height:76px;margin-top:8px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 20px;
+  background:linear-gradient(180deg,transparent,rgba(232,224,208,0.4));border-radius:2px;
+}
+.joint-node{display:flex;flex-direction:column;align-items:center;gap:6px}
+.joint-node svg{width:30px;height:30px}
+.joint-node svg circle{fill:var(--tianqing);opacity:0.7;transition:all 0.6s var(--ease)}
+.joint-node svg path{fill:none;stroke:var(--songyan);stroke-width:1.2;opacity:0.6}
+.joint-node .name{font-family:var(--font-serif);font-weight:400;font-size:11px;color:var(--songyan-soft);letter-spacing:0.1em}
+.joint-node[data-health="low"] svg circle{fill:var(--qiuxiang);opacity:0.55}
+.joint-node[data-health="alert"] svg circle{fill:var(--feihong);opacity:0.5;animation:jointAlert 3s ease-in-out infinite}
+@keyframes jointAlert{0%,100%{opacity:0.35}50%{opacity:0.65}}
+
+.week-review{display:flex;flex-direction:column;gap:12px}
+.week-header{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:6px}
+.week-header .title{font-family:var(--font-serif);font-weight:400;font-size:13px;color:var(--songyan-soft);letter-spacing:0.12em}
+.week-header .title .en{font-family:var(--font-latin);font-weight:300;font-size:10px;color:var(--songyan-mute);letter-spacing:0.2em;margin-left:8px}
+
+.week-bars{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;height:78px;align-items:end;padding:0 4px}
+.day-col{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;height:100%;justify-content:flex-end}
+.day-col .bar{
+  width:100%;max-width:22px;background:linear-gradient(180deg,var(--tianqing),var(--tianqing-deep));
+  border-radius:1px 1px 0 0;height:var(--h,20%);min-height:4px;
+  transition:height 0.8s var(--ease);position:relative;
+}
+.day-col .bar.today::before{
+  content:"";position:absolute;inset:-3px;border:1px solid var(--songyan);border-radius:2px;opacity:0.5;
+}
+.day-col.miss .bar{background:linear-gradient(180deg,var(--xuanzhi-deep),var(--xuanzhi-deep));opacity:0.6}
+.day-col.miss .bar::after{
+  content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+  width:4px;height:4px;background:var(--feihong);border-radius:50%;opacity:0.5;
+}
+.day-col .label{font-family:var(--font-latin);font-weight:300;font-size:10px;color:var(--songyan-mute);letter-spacing:0.1em}
+
+.badge-streak{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:rgba(168,196,201,0.15);
+  color:var(--tianqing-deep);font-family:var(--font-latin);font-weight:300;font-size:11px;letter-spacing:0.12em;margin-left:12px;
+}
+.badge-streak::before{
+  content:"";width:6px;height:6px;background:var(--tianqing-deep);border-radius:50%;
+  animation:streakPulse 2s ease-in-out infinite;
+}
+@keyframes streakPulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
+footer.main-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;margin-top:auto;border-top:1px solid var(--line);
+  font-family:var(--font-serif);font-weight:400;font-size:12px;color:var(--songyan-mute);letter-spacing:0.08em;
+}
+.main-footer .tools{display:flex;gap:20px;align-items:center}
+.main-footer button{
+  background:none;border:none;color:var(--songyan-soft);cursor:pointer;
+  font-family:inherit;font-size:inherit;letter-spacing:inherit;padding:4px 0;
+  transition:color 0.3s var(--ease);border-bottom:1px dotted transparent;
+}
+.main-footer button:hover{color:var(--songyan);border-bottom-color:var(--songyan-mute)}
+.main-footer button.startup-on::before{content:"✓ ";color:var(--tianqing-deep);margin-right:4px}
+.main-footer .sign{font-family:var(--font-latin);font-weight:300;letter-spacing:0.2em;color:var(--songyan-mute)}
+
+.modal-mask{
+  position:fixed;inset:0;background:rgba(244,241,234,0.85);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  z-index:1000;display:flex;align-items:center;justify-content:center;padding:32px;
+  opacity:0;pointer-events:none;transition:opacity 0.5s var(--ease);
+}
+.modal-mask.open{opacity:1;pointer-events:auto}
+.modal{
+  background:var(--yuebai);border:1px solid var(--line-strong);padding:40px 48px;
+  max-width:520px;width:100%;position:relative;
+  box-shadow:0 40px 80px rgba(44,51,54,0.12);
+  transform:translateY(20px);transition:transform 0.6s var(--ease);
+}
+.modal-mask.open .modal{transform:translateY(0)}
+.modal::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--tianqing)}
+.modal .title{font-family:var(--font-serif);font-weight:400;font-size:22px;color:var(--songyan);margin-bottom:8px;letter-spacing:0.06em}
+.modal .title .en{display:block;font-family:var(--font-latin);font-weight:300;font-size:11px;color:var(--songyan-mute);letter-spacing:0.2em;margin-top:4px;text-transform:uppercase}
+.modal .body{font-family:var(--font-serif);font-weight:400;font-size:15px;line-height:1.9;color:var(--songyan-soft);margin:20px 0 26px;letter-spacing:0.04em}
+.modal .body .highlight{color:var(--tianqing-deep);font-weight:500}
+.modal .actions{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+.modal button.act{
+  padding:10px 22px;font-family:var(--font-serif);font-weight:400;font-size:14px;
+  cursor:pointer;letter-spacing:0.08em;transition:all 0.35s var(--ease);
+  border:1px solid var(--line-strong);background:transparent;color:var(--songyan-soft);
+}
+.modal button.act:hover{color:var(--songyan);border-color:var(--songyan-soft)}
+.modal button.act.primary{background:var(--songyan);color:var(--yuebai);border-color:var(--songyan)}
+.modal button.act.primary:hover{background:var(--songyan-soft);border-color:var(--songyan-soft)}
+.modal button.act.danger{color:var(--feihong);border-color:var(--feihong)}
+.modal button.act.danger:hover{background:var(--feihong);color:var(--yuebai)}
+
+.checkin-flash{
+  position:fixed;left:50%;top:38%;transform:translate(-50%,-50%);
+  padding:18px 36px;background:var(--songyan);color:var(--yuebai);
+  font-family:var(--font-serif);font-weight:400;font-size:15px;letter-spacing:0.08em;
+  border-radius:2px;z-index:2000;opacity:0;pointer-events:none;
+  transition:opacity 0.4s var(--ease),transform 0.6s var(--ease);
+  box-shadow:0 20px 40px rgba(44,51,54,0.2);
+}
+.checkin-flash.show{opacity:1;transform:translate(-50%,-50%) translateY(-10px)}
+
+.enter-fade{opacity:0;animation:enterFade 1.4s var(--ease) forwards}
+.enter-fade.d1{animation-delay:0.1s}
+.enter-fade.d2{animation-delay:0.25s}
+.enter-fade.d3{animation-delay:0.4s}
+.enter-fade.d4{animation-delay:0.55s}
+.enter-fade.d5{animation-delay:0.7s}
+.enter-fade.d6{animation-delay:0.85s}
+@keyframes enterFade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:1024px){
+  .app{padding:20px 32px 16px}
+  .stage{grid-template-columns:1fr;gap:24px}
+  .lower-grid{grid-template-columns:1fr;gap:20px}
+  .today-value .num{font-size:68px}
+}
+
+/* 新手引导 */
+.ob-layer{
+  position:fixed;inset:0;z-index:3000;
+  pointer-events:none;opacity:0;
+  transition:opacity 0.5s var(--ease);
+}
+.ob-layer.open{opacity:1;pointer-events:auto}
+.ob-spot{
+  position:absolute;border-radius:10px;
+  box-shadow:0 0 0 9999px rgba(26,32,36,0.60);
+  transition:left 0.5s var(--ease),top 0.5s var(--ease),width 0.5s var(--ease),height 0.5s var(--ease);
+  pointer-events:none;
+}
+.ob-spot.center{
+  left:50%;top:50%;width:0;height:0;
+  box-shadow:0 0 0 9999px rgba(26,32,36,0.74);
+}
+.ob-card{
+  position:absolute;width:346px;
+  background:var(--yuebai);
+  border:1px solid var(--line-strong);
+  border-left:3px solid var(--tianqing-deep);
+  padding:22px 26px 20px;
+  box-shadow:0 28px 64px rgba(26,32,36,0.32);
+  transition:left 0.5s var(--ease),top 0.5s var(--ease),bottom 0.5s var(--ease),transform 0.5s var(--ease);
+}
+.ob-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--tianqing)}
+.ob-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ob-no{font-family:var(--font-latin);font-weight:300;font-size:12px;color:var(--songyan-mute);letter-spacing:0.18em}
+.ob-skip{background:none;border:none;font-family:var(--font-serif);font-weight:400;font-size:12px;color:var(--songyan-mute);cursor:pointer;letter-spacing:0.06em;border-bottom:1px dotted var(--songyan-mute);padding:1px 0;transition:color 0.3s var(--ease)}
+.ob-skip:hover{color:var(--songyan)}
+.ob-latin{font-family:var(--font-latin);font-weight:300;font-size:10px;color:var(--tianqing-deep);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:6px}
+.ob-title{font-family:var(--font-serif);font-weight:500;font-size:19px;color:var(--songyan);letter-spacing:0.04em;margin-bottom:10px}
+.ob-body{font-family:var(--font-serif);font-weight:400;font-size:14px;line-height:1.85;color:var(--songyan-soft);letter-spacing:0.03em}
+.ob-body .em{color:var(--tianqing-deep);font-weight:500}
+.ob-body .warn{color:var(--qiuxiang);font-weight:500}
+.ob-extra{margin-top:14px}
+.ob-extra button{background:var(--tianqing);border:1px solid var(--tianqing-deep);color:var(--songyan);font-family:var(--font-serif);font-weight:400;font-size:13px;padding:8px 18px;cursor:pointer;letter-spacing:0.06em;transition:all 0.3s var(--ease)}
+.ob-extra button:hover{background:var(--tianqing-deep);color:var(--yuebai)}
+.ob-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.ob-prev{background:none;border:none;font-family:var(--font-serif);font-weight:400;font-size:13px;color:var(--songyan-soft);cursor:pointer;letter-spacing:0.06em;padding:6px 0;transition:color 0.3s var(--ease)}
+.ob-prev:hover{color:var(--songyan)}
+.ob-prev[disabled]{opacity:0;pointer-events:none}
+.ob-next{background:var(--songyan);border:1px solid var(--songyan);color:var(--yuebai);font-family:var(--font-serif);font-weight:400;font-size:14px;padding:10px 26px;cursor:pointer;letter-spacing:0.08em;transition:all 0.35s var(--ease)}
+.ob-next:hover{background:var(--songyan-soft);border-color:var(--songyan-soft)}
+.ob-dots{display:flex;gap:6px}
+.ob-dot{width:6px;height:6px;border-radius:50%;background:var(--line-strong);transition:all 0.3s var(--ease)}
+.ob-dot.on{background:var(--tianqing-deep);transform:scale(1.3)}
+
+.ob-body .tag{
+  display:inline-block;border:1px solid var(--tianqing-deep);background:var(--xuanzhi);
+  padding:1px 9px;margin:0 3px;font-size:12.5px;color:var(--songyan);
+  border-radius:3px;font-weight:500;letter-spacing:0.04em;white-space:nowrap;
+}
+.ob-body .rows{display:grid;gap:9px;margin:10px 0 4px}
+.ob-body .rows .r{display:flex;align-items:baseline;gap:6px}
+.ob-body .rows .tag{flex-shrink:0;margin-left:0}
+
+.set-group{
+  font-family:var(--font-serif);font-weight:400;font-size:12px;
+  color:var(--songyan-mute);letter-spacing:0.12em;
+  margin:20px 0 8px;padding-bottom:4px;border-bottom:1px dotted var(--line);
+}
+.set-group:first-of-type{margin-top:12px}
+
+.remember-row{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-serif);font-weight:400;font-size:12.5px;
+  color:var(--songyan-soft);letter-spacing:0.04em;cursor:pointer;
+  margin-top:18px;user-select:none;
+}
+.remember-row input{accent-color:var(--tianqing-deep);width:14px;height:14px;cursor:pointer}
+
+.joint-note{
+  font-family:var(--font-serif);font-weight:400;font-size:11px;
+  color:var(--songyan-mute);letter-spacing:0.05em;line-height:1.7;
+  margin-top:4px;
+}
+.joint-caption{
+  font-family:var(--font-serif);font-weight:400;font-size:11px;
+  color:var(--songyan-mute);letter-spacing:0.08em;
+  text-align:center;margin-top:4px;
+}
+
+.today-value .target{cursor:pointer;border-bottom:1px dotted transparent;transition:border-color 0.3s var(--ease)}
+.today-value .target:hover{border-bottom-color:var(--songyan-mute)}
+</style>
+</head>
+<body data-state="focus">
+
+<div class="aura top"></div>
+<div class="aura bottom"></div>
+<div class="aura left"></div>
+<div class="aura right"></div>
+
+<div class="titlebar">
+  <div class="brand-mini">
+    <span class="glyph">润</span>
+    <span class="latin">RUNN</span>
+  </div>
+  <div class="window-controls">
+    <button id="btn-minimize" title="最小化">﹣</button>
+    <button id="btn-close" class="close-btn" title="收到托盘">×</button>
+  </div>
+</div>
+
+<div class="app">
+
+  <header class="main-header enter-fade d1">
+    <div class="brand">
+      <span class="glyph">润</span>
+      <span class="latin">Runn</span>
+      <span class="divider">·</span>
+      <span class="date" id="date-line">庚寅 · 甲午月 · 辰时</span>
+    </div>
+    <div class="state-switcher" role="tablist">
+      <button data-state="meeting" title="完全静默:不弹卡片、不发通知,开会前切这个"><span>会议中</span><span class="en">Meeting</span></button>
+      <button data-state="focus" class="active" title="日常工作状态:到点在右下角轻轻弹一张小卡片"><span>深度专注</span><span class="en">Focus</span></button>
+      <button data-state="break" title="刚散会/午休的空档:切过来立刻递一张卡片"><span>空隙时刻</span><span class="en">Break</span></button>
+    </div>
+  </header>
+
+  <main class="stage enter-fade d2">
+    <div class="vessel-wrap">
+      <svg class="vessel" viewBox="0 0 360 380" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="bowlClip"><path d="M60 130 Q60 340 180 355 Q300 340 300 130 Z"/></clipPath>
+          <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a8c4c9" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#7ba0a7" stop-opacity="0.85"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="180" cy="130" rx="122" ry="14" fill="rgba(44,51,54,0.08)"/>
+        <path class="bowl-body" d="M58 128 Q58 348 180 360 Q302 348 302 128 Z"/>
+        <ellipse cx="180" cy="128" rx="122" ry="14" fill="var(--yuebai)"/>
+        <ellipse class="bowl-rim" cx="180" cy="128" rx="122" ry="14"/>
+        <ellipse cx="180" cy="128" rx="108" ry="8" fill="rgba(44,51,54,0.04)"/>
+        <g clip-path="url(#bowlClip)">
+          <g id="water-group" transform="translate(0,240)">
+            <rect x="-100" y="10" width="560" height="400" fill="url(#waterGrad)"/>
+            <g class="wave-anim-1">
+              <path d="M-100 10 Q-50 -6 0 10 T100 10 T200 10 T300 10 T400 10 T500 10 L500 40 L-100 40 Z" fill="url(#waterGrad)" opacity="0.75"/>
+            </g>
+            <g class="wave-anim-2">
+              <path d="M-100 14 Q-50 2 0 14 T100 14 T200 14 T300 14 T400 14 T500 14 L500 40 L-100 40 Z" fill="rgba(255,255,255,0.28)"/>
+            </g>
+            <ellipse cx="120" cy="16" rx="40" ry="2" fill="rgba(255,255,255,0.3)"/>
+          </g>
+        </g>
+        <ellipse class="bowl-rim" cx="180" cy="128" rx="122" ry="14"/>
+        <path d="M58 128 Q58 348 180 360 Q302 348 302 128" fill="none" stroke="rgba(44,51,54,0.35)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <div class="numerics">
+      <div class="today-headline">今日饮水 <span class="en">Today &middot; Intake</span></div>
+      <div class="today-value">
+        <span class="num" id="today-num">0</span>
+        <span class="unit">ml</span>
+        <span class="target" id="target-click" title="点击修改每日目标">目标 <span id="target-num">2500</span> ml</span>
+      </div>
+      <div class="progress-line" id="progress-line" style="--progress:0%"></div>
+
+      <div class="whisper" id="whisper">
+        <div class="text" id="whisper-text">你的键盘敲了很久，允许自己端起杯子吗</div>
+      </div>
+
+      <div class="checkin-row">
+        <button class="checkin-btn" data-ml="125"><span class="label">一小口</span><span class="ml">125<span class="u">ml</span></span></button>
+        <button class="checkin-btn" data-ml="250"><span class="label">一整杯</span><span class="ml">250<span class="u">ml</span></span></button>
+        <button class="checkin-btn" data-ml="500"><span class="label">大杯</span><span class="ml">500<span class="u">ml</span></span></button>
+      </div>
+    </div>
+  </main>
+
+  <section class="lower-grid enter-fade d4">
+    <div class="joint-town">
+      <div class="joint-header">
+        <div class="title">发作预报<span class="en">Flare Forecast</span></div>
+        <div class="badge-streak">连续达标 · <span id="streak-num">0</span> 天</div>
+      </div>
+      <div class="joint-metrics">
+        <div class="joint-metric">
+          <div class="value good"><span id="predict-days">14</span><span class="u">天</span></div>
+          <div class="label">距下次可能急性发作<br>Predicted Interval</div>
+        </div>
+        <div class="joint-metric">
+          <div class="value"><span id="streak-days">0</span><span class="u">日</span></div>
+          <div class="label">连续达标<br>Consecutive Days</div>
+        </div>
+      </div>
+      <div class="joint-note">按近期喝水规律粗估,只作习惯提醒,不构成医学建议。</div>
+    </div>
+
+    <div class="week-review">
+      <div class="week-header">
+        <div class="title">近七日<span class="en">Seven Days</span></div>
+      </div>
+      <div class="week-bars" id="week-bars"></div>
+    </div>
+  </section>
+
+  <footer class="main-footer enter-fade d6">
+    <div class="tools">
+      <button id="btn-tutorial">使用教程</button>
+      <button id="btn-undo">撤销上次打卡</button>
+      <button id="btn-startup">开机自启</button>
+      <button id="btn-settings">设置</button>
+      <button id="btn-preview">现在提醒我一次</button>
+      <button id="btn-quit">退出程序</button>
+    </div>
+    <div class="sign">RUNN · v1.0 · MADE FOR THE DESK-BOUND</div>
+  </footer>
+
+</div>
+
+<div class="modal-mask" id="close-mask">
+  <div class="modal">
+    <div class="title">先缩到托盘，还是直接退出 <span class="en">Hide Or Quit</span></div>
+    <div class="body" id="close-body">
+      缩到托盘:润继续在后台陪你,到点在右下角轻声提醒。<br>
+      直接退出:今天到此为止,提醒也一起停下。
+    </div>
+    <label class="remember-row"><input type="checkbox" id="close-remember"> 记住我的选择,下次点 × 不再问</label>
+    <div class="actions" style="margin-top:20px">
+      <button class="act danger" id="close-quit">直接退出</button>
+      <button class="act" id="close-cancel">再看一下</button>
+      <button class="act primary" id="close-confirm">缩到托盘</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-mask" id="quit-mask">
+  <div class="modal">
+    <div class="title">真的要退出润吗 <span class="en">Quit Runn</span></div>
+    <div class="body">
+      你今天已经陪自己饮了 <span class="highlight" id="quit-cups">0</span> 杯，
+      共 <span class="highlight" id="quit-ml">0</span> ml。<br>
+      按这个节奏走下去，下一次急性发作可能延后到 <span class="highlight" id="quit-days">14</span> 天以后。<br><br>
+      我不追你，只是想再问一句。
+    </div>
+    <div class="actions">
+      <button class="act danger" id="quit-confirm">今天到此</button>
+      <button class="act primary" id="quit-cancel">再留一天</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-mask" id="settings-mask">
+  <div class="modal">
+    <div class="title">设置 <span class="en">Settings</span></div>
+    <div class="set-group">每日饮水目标 · 痛风人建议 2500,肾功能弱的谨遵医嘱调低</div>
+    <div class="actions" style="justify-content:flex-start">
+      <button class="act" data-target="1500">1500 ml</button>
+      <button class="act" data-target="2000">2000 ml</button>
+      <button class="act" data-target="2500">2500 ml</button>
+      <button class="act" data-target="3000">3000 ml</button>
+    </div>
+    <div class="set-group">提醒间隔 · 太密会疲劳,太松会忘</div>
+    <div class="actions" style="justify-content:flex-start">
+      <button class="act" data-interval="30">30 分钟</button>
+      <button class="act" data-interval="45">45 分钟</button>
+      <button class="act" data-interval="60">60 分钟</button>
+      <button class="act" data-interval="90">90 分钟</button>
+    </div>
+    <div class="set-group">会议静默多久后自动回到深度专注 · 防止忘了切回来一直哑着</div>
+    <div class="actions" style="justify-content:flex-start">
+      <button class="act" data-meeting-back="30">30 分钟</button>
+      <button class="act" data-meeting-back="60">60 分钟</button>
+      <button class="act" data-meeting-back="90">90 分钟</button>
+      <button class="act" data-meeting-back="0">手动切回</button>
+    </div>
+    <div class="set-group">点右上角 × 时</div>
+    <div class="actions" style="justify-content:flex-start">
+      <button class="act" data-close-action="ask">每次询问</button>
+      <button class="act" data-close-action="tray">直接缩到托盘</button>
+      <button class="act" data-close-action="quit">直接退出</button>
+    </div>
+    <div class="actions" style="margin-top:24px">
+      <button class="act primary" id="settings-close">好</button>
+    </div>
+  </div>
+</div>
+
+<div class="checkin-flash" id="checkin-flash"></div>
+
+<script>
+(function(){
+"use strict";
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+let state = {ml:0, cups:0, target:2500, streak:0, history:[], status:"focus", interval:45, predictedDays:14, startupEnabled:false};
+
+const WHISPERS = [
+  "你的键盘敲了很久，允许自己端起杯子吗",
+  "会议刚散，是不是可以给自己 30 秒",
+  "距上次饮水一小时了，尿酸浓度正在缓慢上升",
+  "一小口水，就是给关节一次减压",
+  "手边有杯子就行，冷的也可以",
+  "空调开着，喝水能顶回来一半",
+  "深呼吸一下，端起杯子",
+  "屏幕已经盯了很久，眼睛也想喝一口",
+  "先不为工作，先为膝盖",
+  "润，不是灌，一口就好",
+  "这一秒的水，是给下个月的自己",
+  "打字的间隙就够了，不用起身",
+  "关节不会大声抗议，它只会等你想起来"
+];
+
+const CHECKIN_MSGS = [
+  ml => `这 ${ml}ml，会去到你手指的每一个关节`,
+  ml => `好，多留一层护垫在膝盖里`,
+  ml => `已记下，血尿酸浓度往下走一点点`,
+  ml => `${ml}ml，换的是明天不痛的一整天`,
+  ml => `关节镇今晚睡得会更安稳`,
+  ml => `多谢你想起，一次小小的润泽`
+];
+
+let lastWhisper = -1;
+function pickWhisper(){
+  let idx;
+  let tries = 0;
+  do{ idx = Math.floor(Math.random()*WHISPERS.length); tries++; }
+  while(idx === lastWhisper && tries < 5);
+  lastWhisper = idx;
+  return WHISPERS[idx];
+}
+function refreshWhisper(){
+  const el = $("#whisper-text");
+  el.style.opacity = 0;
+  setTimeout(() => { el.textContent = pickWhisper(); el.style.opacity = 1; }, 400);
+}
+
+function render(){
+  $("#today-num").textContent = state.ml;
+  $("#target-num").textContent = state.target;
+  const pct = Math.min(100, Math.round(state.ml/state.target*100));
+  $("#progress-line").style.setProperty("--progress", pct+"%");
+
+  const level = Math.min(1, state.ml / state.target);
+  const waterY = 240 - level*220;
+  const wg = document.getElementById("water-group");
+  if(wg) wg.setAttribute("transform", `translate(0,${Math.max(20, waterY)})`);
+  const numEl = $("#today-num");
+  if(state.ml >= 3500){
+    numEl.style.color = "var(--qiuxiang)";
+  }else if(state.ml >= state.target){
+    numEl.style.color = "var(--tianqing-deep)";
+  }else{
+    numEl.style.color = "";
+  }
+
+  $("#streak-num").textContent = state.streak;
+  $("#streak-days").textContent = state.streak;
+  $("#predict-days").textContent = state.predictedDays;
+
+  const predictEl = $("#predict-days").parentElement;
+  predictEl.classList.remove("warn","good");
+  if(state.predictedDays >= 30) predictEl.classList.add("good");
+  else if(state.predictedDays < 20) predictEl.classList.add("warn");
+
+  document.body.setAttribute("data-state", state.status);
+  $$(".state-switcher button").forEach(b => {
+    b.classList.toggle("active", b.dataset.state === state.status);
+  });
+
+  const startupBtn = $("#btn-startup");
+  if(state.startupEnabled){
+    startupBtn.textContent = "开机自启已开";
+    startupBtn.classList.add("startup-on");
+  }else{
+    startupBtn.textContent = "开机自启";
+    startupBtn.classList.remove("startup-on");
+  }
+
+  $("#quit-cups").textContent = state.cups;
+  $("#quit-ml").textContent = state.ml;
+  $("#quit-days").textContent = state.predictedDays;
+
+  renderWeek();
+  renderDate();
+}
+
+function renderWeek(){
+  const wrap = $("#week-bars");
+  wrap.innerHTML = "";
+  const dayNames = ["周日","周一","周二","周三","周四","周五","周六"];
+  const now = new Date();
+  const days = [];
+  for(let i=6;i>=0;i--){
+    const d = new Date(now.getTime() - i*86400000);
+    const key = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    if(i === 0){
+      days.push({dow:dayNames[d.getDay()], ml:state.ml, met:state.ml >= state.target, today:true});
+    }else{
+      const hist = (state.history||[]).find(h => h.date === key);
+      if(hist){
+        days.push({dow:dayNames[d.getDay()], ml:hist.ml, met:hist.met, today:false});
+      }else{
+        days.push({dow:dayNames[d.getDay()], ml:0, met:false, today:false});
+      }
+    }
+  }
+  const max = Math.max(state.target, ...days.map(d => d.ml), 3000);
+  days.forEach(d => {
+    const col = document.createElement("div");
+    col.className = "day-col" + (d.met ? "" : " miss");
+    const h = d.ml === 0 ? 4 : Math.max(6, Math.round(d.ml/max*100));
+    col.innerHTML = `<div class="bar${d.today?" today":""}" style="--h:${h}%"></div><div class="label">${d.dow}</div>`;
+    wrap.appendChild(col);
+  });
+}
+
+function renderDate(){
+  const now = new Date();
+  const stems = ["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"];
+  const branches = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+  const dayStem = stems[(now.getDate()+3)%10];
+  const dayBranch = branches[(now.getDate()+5)%12];
+  const shichenIdx = Math.floor((now.getHours()+1)%24/2);
+  const shichen = ["子时","丑时","寅时","卯时","辰时","巳时","午时","未时","申时","酉时","戌时","亥时"][shichenIdx];
+  const dateStr = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
+  $("#date-line").innerHTML = `${dateStr} <span class="almanac">${dayStem}${dayBranch}日 · ${shichen}</span>`;
+}
+
+function showFlash(text){
+  const el = $("#checkin-flash");
+  el.textContent = text;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 2200);
+}
+
+$$(".checkin-btn").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const ml = parseInt(btn.dataset.ml, 10);
+    let alert = null;
+    if(window.runn){
+      const r = await window.runn.checkin(ml);
+      alert = r?.alert;
+    }
+    const msgFn = CHECKIN_MSGS[Math.floor(Math.random()*CHECKIN_MSGS.length)];
+    showFlash(msgFn(ml));
+    refreshWhisper();
+    if(alert){
+      setTimeout(() => showFlash(alert.text), 1500);
+    }
+  });
+});
+
+const btnUndo = $("#btn-undo");
+if(btnUndo){
+  btnUndo.addEventListener("click", async () => {
+    if(!window.runn){ showFlash("桌面进程未就绪"); return; }
+    const r = await window.runn.undoLastCheckin();
+    if(r.ok){
+      showFlash(`已回滚上一次的 ${r.undone}ml · 现在是 ${r.ml}ml`);
+    }else{
+      showFlash("今天还没打卡，没什么可撤销的");
+    }
+  });
+}
+
+$$(".state-switcher button").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const st = btn.dataset.state;
+    if(window.runn){ await window.runn.setStatus(st); }
+    if(st === "meeting"){
+      const mb = state.meetingAutoBack === undefined ? 60 : state.meetingAutoBack;
+      showFlash(mb > 0 ? `已静音 · ${mb}分钟后自动回到深度专注` : "已静音 · 记得散会后切回来");
+    }
+    else if(st === "focus") showFlash("深度专注 · 到点在右下角轻轻弹卡");
+    else showFlash("空隙时刻 · 这就递一张卡片过来");
+  });
+});
+
+$("#btn-minimize").addEventListener("click", () => { if(window.runn) window.runn.minimizeMain(); });
+
+function doTray(){
+  showFlash("润在托盘 · 需要时叫我");
+  setTimeout(() => { if(window.runn) window.runn.hideMain(); }, 500);
+}
+function doQuit(){
+  showFlash("那明天见 · 记得多喝水");
+  setTimeout(() => { if(window.runn) window.runn.confirmQuit(); }, 1000);
+}
+$("#btn-close").addEventListener("click", () => {
+  const pref = localStorage.getItem("runn.closeAction");
+  if(pref === "tray"){ doTray(); return; }
+  if(pref === "quit"){ doQuit(); return; }
+  $("#close-remember").checked = false;
+  $("#close-mask").classList.add("open");
+});
+$("#close-cancel").addEventListener("click", () => $("#close-mask").classList.remove("open"));
+$("#close-confirm").addEventListener("click", () => {
+  if($("#close-remember").checked) localStorage.setItem("runn.closeAction", "tray");
+  $("#close-mask").classList.remove("open");
+  doTray();
+});
+$("#close-quit").addEventListener("click", () => {
+  if($("#close-remember").checked) localStorage.setItem("runn.closeAction", "quit");
+  $("#close-mask").classList.remove("open");
+  doQuit();
+});
+
+$("#btn-quit").addEventListener("click", () => {
+  $("#quit-mask").classList.add("open");
+});
+$("#quit-cancel").addEventListener("click", () => $("#quit-mask").classList.remove("open"));
+$("#quit-confirm").addEventListener("click", () => {
+  $("#quit-mask").classList.remove("open");
+  showFlash("那明天见 · 记得多喝水");
+  setTimeout(() => { if(window.runn) window.runn.confirmQuit(); }, 1200);
+});
+
+$("#btn-startup").addEventListener("click", async () => {
+  if(!window.runn) return;
+  const r = await window.runn.toggleStartup();
+  state.startupEnabled = r.enabled;
+  render();
+  showFlash(r.enabled ? "已加入开机自启" : "已取消开机自启");
+});
+
+function openSettings(){
+  $$("#settings-mask [data-interval]").forEach(b => {
+    b.classList.toggle("primary", parseInt(b.dataset.interval,10) === state.interval);
+  });
+  $$("#settings-mask [data-target]").forEach(b => {
+    b.classList.toggle("primary", parseInt(b.dataset.target,10) === state.target);
+  });
+  const pref = localStorage.getItem("runn.closeAction") || "ask";
+  $$("#settings-mask [data-close-action]").forEach(b => {
+    b.classList.toggle("primary", b.dataset.closeAction === pref);
+  });
+  const mb = state.meetingAutoBack === undefined ? 60 : state.meetingAutoBack;
+  $$("#settings-mask [data-meeting-back]").forEach(b => {
+    b.classList.toggle("primary", parseInt(b.dataset.meetingBack,10) === mb);
+  });
+  $("#settings-mask").classList.add("open");
+}
+$("#btn-settings").addEventListener("click", openSettings);
+const targetClick = $("#target-click");
+if(targetClick) targetClick.addEventListener("click", openSettings);
+
+$$("#settings-mask [data-interval]").forEach(b => {
+  b.addEventListener("click", async () => {
+    const v = parseInt(b.dataset.interval, 10);
+    if(window.runn){ await window.runn.setInterval(v); }
+    $$("#settings-mask [data-interval]").forEach(x => x.classList.toggle("primary", x === b));
+  });
+});
+$$("#settings-mask [data-target]").forEach(b => {
+  b.addEventListener("click", async () => {
+    const v = parseInt(b.dataset.target, 10);
+    if(window.runn){ await window.runn.setTarget(v); }
+    $$("#settings-mask [data-target]").forEach(x => x.classList.toggle("primary", x === b));
+  });
+});
+$$("#settings-mask [data-meeting-back]").forEach(b => {
+  b.addEventListener("click", async () => {
+    const v = parseInt(b.dataset.meetingBack, 10);
+    if(window.runn && window.runn.setMeetingAutoBack){ await window.runn.setMeetingAutoBack(v); }
+    $$("#settings-mask [data-meeting-back]").forEach(x => x.classList.toggle("primary", x === b));
+  });
+});
+$$("#settings-mask [data-close-action]").forEach(b => {
+  b.addEventListener("click", () => {
+    const v = b.dataset.closeAction;
+    if(v === "ask") localStorage.removeItem("runn.closeAction");
+    else localStorage.setItem("runn.closeAction", v);
+    $$("#settings-mask [data-close-action]").forEach(x => x.classList.toggle("primary", x === b));
+  });
+});
+$("#settings-close").addEventListener("click", () => {
+  $("#settings-mask").classList.remove("open");
+  showFlash(`目标 ${state.target}ml · 每 ${state.interval} 分钟提醒`);
+});
+
+$("#btn-preview").addEventListener("click", async () => {
+  if(window.runn){
+    await window.runn.previewMini();
+  }
+  showFlash("润在右下角出现了");
+});
+
+if(window.runn){
+  window.runn.onStateUpdate((s) => {
+    state = {...state, ...s};
+    render();
+  });
+  window.runn.getState().then(s => {
+    state = {...state, ...s};
+    render();
+    refreshWhisper();
+  });
+}else{
+  render();
+  refreshWhisper();
+}
+
+setInterval(renderDate, 60000);
+setInterval(() => {
+  if(state.status === "meeting") return;
+  if(Math.random() < 0.5) refreshWhisper();
+}, 180000);
+
+})();
+</script>
+
+<div class="ob-layer" id="ob-layer">
+  <div class="ob-spot" id="ob-spot"></div>
+  <div class="ob-card" id="ob-card">
+    <div class="ob-top">
+      <span class="ob-no" id="ob-no">01 / 09</span>
+      <button class="ob-skip" id="ob-skip">跳过引导</button>
+    </div>
+    <div class="ob-latin" id="ob-latin">MEET RUNN</div>
+    <div class="ob-title" id="ob-title">标题</div>
+    <div class="ob-body" id="ob-body">正文</div>
+    <div class="ob-extra" id="ob-extra"></div>
+    <div class="ob-actions">
+      <button class="ob-prev" id="ob-prev">上一步</button>
+      <div class="ob-dots" id="ob-dots"></div>
+      <button class="ob-next" id="ob-next">下一步</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const $ = s => document.querySelector(s);
+
+const STEPS = [
+  {sel:null, latin:"MEET RUNN", title:"你好，我是润",
+   body:"我不是又一个催你喝水的闹钟，是陪你把痛风这件事熬过去的那个。给我一分钟，带你认识一遍。"},
+  {sel:".vessel-wrap", latin:"THE BOWL", title:"这是今天的你",
+   body:"每喝一口，水盂里的水位往上涨。它不催你，只是安静待在这儿，让你看见今天照顾了自己多少。"},
+  {sel:".today-value", latin:"YOUR INTAKE", title:"痛风人的水线",
+   body:"默认<span class='em'>2500ml</span>，比常人多。点<span class='tag'>目标 2500 ml</span>那几个字，可以改成适合你的量。达标数字变青；<span class='warn'>超过3500会变黄</span>，喝太多反而加重肾负担。"},
+  {sel:".checkin-row", latin:"ONE TAP", title:"喝了就点一下",
+   body:"不用精确，一整杯按<span class='em'>250</span>就行。点错也不怕，底部随时能撤销。"},
+  {sel:".state-switcher", latin:"THREE MODES", title:"三种状态,三种打扰方式",
+   body:"开会前顺手切一下,不在评审会上社死。<div class='rows'><div class='r'><span class='tag'>会议中</span>完全静默,什么都不弹</div><div class='r'><span class='tag'>深度专注</span>日常状态,到点轻弹小卡</div><div class='r'><span class='tag'>空隙时刻</span>刚散会,切过来立刻递一张</div></div>静默一小时后自动回到深度专注,忘了切也不会一直哑着。"},
+  {sel:".joint-town", latin:"FLARE FORECAST", title:"发作预报:让代价看得见",
+   body:"按你喝水的规律,粗估<span class='em'>距下次急性发作还有几天</span>。越规律数字越大,断卡就缩短。痛风常先找上大拇趾、膝、肘和手指。只是习惯提醒,不构成医学建议。"},
+  {sel:"#btn-preview", latin:"THE CARD", title:"右下角那张小卡片",
+   body:"平时润缩在托盘里不打扰你。到点了在屏幕右下角轻轻弹一张卡片，一句话加三个打卡键，你随手点一下或者叉掉都行。",
+   extra:{label:"弹一张给我看看", fn:() => { if(window.runn) window.runn.previewMini(); }}},
+  {sel:".tools", latin:"ALWAYS HERE", title:"左下角这一排,认这三个就够",
+   body:"<div class='rows'><div class='r'><span class='tag'>撤销上次打卡</span>点错就回滚</div><div class='r'><span class='tag'>开机自启</span>让润每天开机就位</div><div class='r'><span class='tag'>设置</span>改目标、间隔、会议静默时长、关闭行为</div></div>"},
+  {sel:null, latin:"GO", title:"就这些了",
+   body:"剩下的交给日子。愿你这个月，脚趾头一次都别疼。"}
+];
+
+const KEY = "runn.onboarded";
+let idx = 0;
+const layer = $("#ob-layer");
+const spot = $("#ob-spot");
+const card = $("#ob-card");
+
+function buildDots(){
+  const wrap = $("#ob-dots");
+  wrap.innerHTML = "";
+  STEPS.forEach((_,i) => {
+    const d = document.createElement("div");
+    d.className = "ob-dot" + (i === idx ? " on" : "");
+    wrap.appendChild(d);
+  });
+}
+
+function place(){
+  const step = STEPS[idx];
+  const cardW = 346;
+  if(!step.sel){
+    spot.classList.add("center");
+    card.style.left = "50%";
+    card.style.top = "50%";
+    card.style.bottom = "auto";
+    card.style.transform = "translate(-50%,-50%)";
+    return;
+  }
+  const el = document.querySelector(step.sel);
+  if(!el){
+    spot.classList.add("center");
+    card.style.left = "50%"; card.style.top = "50%"; card.style.bottom = "auto";
+    card.style.transform = "translate(-50%,-50%)";
+    return;
+  }
+  spot.classList.remove("center");
+  const r = el.getBoundingClientRect();
+  const pad = 8;
+  spot.style.left = (r.left - pad) + "px";
+  spot.style.top = (r.top - pad) + "px";
+  spot.style.width = (r.width + pad*2) + "px";
+  spot.style.height = (r.height + pad*2) + "px";
+
+  card.style.transform = "none";
+  let left = r.left + r.width/2 - cardW/2;
+  left = Math.max(20, Math.min(left, window.innerWidth - cardW - 20));
+  card.style.left = left + "px";
+  if(r.top < window.innerHeight * 0.52){
+    card.style.top = (r.bottom + 20) + "px";
+    card.style.bottom = "auto";
+  }else{
+    card.style.top = "auto";
+    card.style.bottom = (window.innerHeight - r.top + 20) + "px";
+  }
+}
+
+function render(){
+  const step = STEPS[idx];
+  $("#ob-no").textContent = String(idx+1).padStart(2,"0") + " / " + String(STEPS.length).padStart(2,"0");
+  $("#ob-latin").textContent = step.latin;
+  $("#ob-title").textContent = step.title;
+  $("#ob-body").innerHTML = step.body;
+  const extra = $("#ob-extra");
+  extra.innerHTML = "";
+  if(step.extra){
+    const b = document.createElement("button");
+    b.textContent = step.extra.label;
+    b.addEventListener("click", step.extra.fn);
+    extra.appendChild(b);
+  }
+  $("#ob-prev").disabled = idx === 0;
+  $("#ob-next").textContent = idx === STEPS.length-1 ? "开始使用" : "下一步";
+  buildDots();
+  place();
+}
+
+function open(){
+  idx = 0;
+  layer.classList.add("open");
+  render();
+}
+function close(){
+  layer.classList.remove("open");
+  try{ localStorage.setItem(KEY, "1"); }catch(e){}
+}
+function next(){
+  if(idx >= STEPS.length-1){ close(); return; }
+  idx++;
+  render();
+}
+function prev(){
+  if(idx <= 0) return;
+  idx--;
+  render();
+}
+
+$("#ob-next").addEventListener("click", next);
+$("#ob-prev").addEventListener("click", prev);
+$("#ob-skip").addEventListener("click", close);
+document.addEventListener("keydown", (e) => {
+  if(!layer.classList.contains("open")) return;
+  if(e.key === "Escape") close();
+  else if(e.key === "ArrowRight" || e.key === "Enter") next();
+  else if(e.key === "ArrowLeft") prev();
+});
+window.addEventListener("resize", () => {
+  if(layer.classList.contains("open")) place();
+});
+
+const btnTut = $("#btn-tutorial");
+if(btnTut) btnTut.addEventListener("click", open);
+
+try{
+  if(!localStorage.getItem(KEY)){
+    setTimeout(open, 1200);
+  }
+}catch(e){}
+
+})();
+</script>
+</body>
+</html>

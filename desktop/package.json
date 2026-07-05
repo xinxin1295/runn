@@ -1,0 +1,58 @@
+{
+  "name": "runn",
+  "version": "1.0.0",
+  "description": "润 Runn · 给大厂痛风PM/程序员的痛风友好工作陪伴者",
+  "main": "main.js",
+  "author": "信信",
+  "license": "MIT",
+  "scripts": {
+    "gen-icons": "node tools/gen-icons.js",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win --x64",
+    "postinstall": "node tools/gen-icons.js"
+  },
+  "devDependencies": {
+    "electron": "^30.0.9",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.xinxin.runn",
+    "productName": "润 Runn",
+    "electronDist": "node_modules/electron/dist",
+    "copyright": "Copyright © 2026 Xinxin",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.png",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "润 Runn",
+      "artifactName": "润Runn_Setup_${version}.exe"
+    },
+    "portable": {
+      "artifactName": "润Runn_Portable_${version}.exe"
+    }
+  }
+}

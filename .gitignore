@@ -1,0 +1,11 @@
+AI实战课·第一节 项目部分 学员笔记（喝水小助手）.html
+一个被师兄痛风逼出来的产品 · 喝水小助手第一课.html
+一个被师兄痛风逼出来的产品 · 喝水小助手第一课_files/
+CLAUDE.md
+desktop/node_modules/
+desktop/release/
+desktop/assets/
+*.zip
+.playwright-mcp/
+.claude/
+desktop/.npmrc
