@@ -330,30 +330,6 @@ body[data-state="meeting"] .vessel{animation-duration:10s}
 }
 .set-group:first-of-type{margin-top:12px}
 
-.joint-diagram{
-  position:relative;height:80px;margin-top:10px;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 20px;
-  background:linear-gradient(180deg,transparent,rgba(232,224,208,0.4));
-  border-radius:2px;
-}
-.joint-node{
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  cursor:default;
-}
-.joint-node svg{width:34px;height:34px}
-.joint-node svg circle{fill:var(--tianqing);opacity:0.7;transition:all 0.6s var(--ease)}
-.joint-node svg path{fill:none;stroke:var(--songyan);stroke-width:1.2;opacity:0.6}
-.joint-node .name{
-  font-family:var(--font-serif);font-weight:400;font-size:11px;
-  color:var(--songyan-soft);letter-spacing:0.1em;
-}
-.joint-node[data-health="low"] svg circle{fill:var(--qiuxiang);opacity:0.55}
-.joint-node[data-health="alert"] svg circle{fill:var(--feihong);opacity:0.5;animation:jointAlert 3s ease-in-out infinite}
-@keyframes jointAlert{
-  0%,100%{opacity:0.35}
-  50%{opacity:0.65}
-}
 
 .week-review{display:flex;flex-direction:column;gap:14px}
 .week-header{
