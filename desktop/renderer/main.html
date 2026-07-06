@@ -506,7 +506,7 @@ footer.main-footer{
   </header>
 
   <div class="meeting-bar" id="meeting-bar">
-    <span class="mbar-label">会议中 · 本场预计</span>
+    <span class="mbar-label">已进入会议静默 · 这场开多久?</span>
     <div class="mbar-opts">
       <button data-mbar="30">30 分</button>
       <button data-mbar="60">1 时</button>
@@ -520,81 +520,33 @@ footer.main-footer{
 
   <main class="stage enter-fade d2">
     <div class="vessel-wrap">
-      <svg class="vessel" viewBox="0 0 360 390" xmlns="http://www.w3.org/2000/svg">
+      <svg class="vessel" viewBox="0 0 360 380" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <clipPath id="bowlClip"><path d="M60 130 Q60 340 180 355 Q300 340 300 130 Z"/></clipPath>
           <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#8fb4c4" stop-opacity="0.62"/>
-            <stop offset="100%" stop-color="#5f86a0" stop-opacity="0.5"/>
+            <stop offset="0%" stop-color="#a8c4c9" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#7ba0a7" stop-opacity="0.85"/>
           </linearGradient>
-          <linearGradient id="porcelain" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#fcfbf7"/>
-            <stop offset="52%" stop-color="#f3eee3"/>
-            <stop offset="100%" stop-color="#e7dfce"/>
-          </linearGradient>
-          <radialGradient id="glaze" cx="36%" cy="26%" r="72%">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.65"/>
-            <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
-          </radialGradient>
         </defs>
-
-        <!-- 投影 -->
-        <ellipse cx="180" cy="132" rx="122" ry="14" fill="rgba(44,51,54,0.08)"/>
-
-        <!-- 瓷身 -->
-        <path d="M58 128 Q58 348 180 360 Q302 348 302 128 Z" fill="url(#porcelain)" stroke="#2e4f7a" stroke-width="1.3"/>
-
-        <!-- 青花纹样(钴蓝,画在瓷身,水半透明盖过后会透出) -->
-        <g fill="none" stroke="#2e4f7a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-          <!-- 上部双弦纹 -->
-          <path d="M64 160 Q180 176 296 160" opacity="0.85"/>
-          <path d="M66 168 Q180 184 294 168" opacity="0.55" stroke-width="1"/>
-          <!-- 缠枝莲主带 -->
-          <path d="M78 250 Q108 222 138 250 Q168 278 198 250 Q228 222 258 250 Q276 267 284 254" opacity="0.9"/>
-          <!-- 缠枝上的三朵莲 -->
-          <g opacity="0.9">
-            <path d="M123 236 q7 -11 15 0 q-7 -6 -15 0 z" fill="#2e4f7a"/>
-            <path d="M138 236 q-8 -12 -15 0 M138 236 q8 -12 15 0 M130.5 234 q0 -13 0 -15 M130.5 234 q-13 4 -18 6 M130.5 234 q13 4 18 6"/>
-          </g>
-          <g opacity="0.9">
-            <path d="M183 264 q-8 -12 -15 0 M183 264 q8 -12 15 0 M175.5 262 q0 -13 0 -15 M175.5 262 q-13 4 -18 6 M175.5 262 q13 4 18 6"/>
-          </g>
-          <g opacity="0.9">
-            <path d="M243 236 q-8 -12 -15 0 M243 236 q8 -12 15 0 M235.5 234 q0 -13 0 -15 M235.5 234 q-13 4 -18 6 M235.5 234 q13 4 18 6"/>
-          </g>
-          <!-- 叶片点缀 -->
-          <path d="M100 262 q-9 6 -6 16 q9 -3 6 -16 z" fill="#2e4f7a" opacity="0.55"/>
-          <path d="M262 262 q9 6 6 16 q-9 -3 -6 -16 z" fill="#2e4f7a" opacity="0.55"/>
-          <!-- 下部弦纹 + 莲瓣一圈 -->
-          <path d="M96 316 Q180 332 264 316" opacity="0.7"/>
-          <path d="M112 330 q10 -14 20 0 M140 336 q10 -14 20 0 M168 338 q10 -14 20 0 M196 336 q10 -14 20 0 M224 330 q10 -14 20 0" opacity="0.6" stroke-width="1.1"/>
-        </g>
-
-        <!-- 口沿 -->
-        <ellipse cx="180" cy="128" rx="122" ry="14" fill="#f7f4ec"/>
-        <ellipse cx="180" cy="128" rx="122" ry="14" fill="none" stroke="#2e4f7a" stroke-width="1.2"/>
-        <ellipse cx="180" cy="128" rx="112" ry="12" fill="none" stroke="#2e4f7a" stroke-width="0.8" opacity="0.55"/>
-        <ellipse cx="180" cy="128" rx="106" ry="8" fill="rgba(46,79,122,0.06)"/>
-
-        <!-- 水(半透明青,纹样透出) -->
+        <ellipse cx="180" cy="130" rx="122" ry="14" fill="rgba(44,51,54,0.08)"/>
+        <path class="bowl-body" d="M58 128 Q58 348 180 360 Q302 348 302 128 Z"/>
+        <ellipse cx="180" cy="128" rx="122" ry="14" fill="var(--yuebai)"/>
+        <ellipse class="bowl-rim" cx="180" cy="128" rx="122" ry="14"/>
+        <ellipse cx="180" cy="128" rx="108" ry="8" fill="rgba(44,51,54,0.04)"/>
         <g clip-path="url(#bowlClip)">
           <g id="water-group" transform="translate(0,240)">
             <rect x="-100" y="10" width="560" height="400" fill="url(#waterGrad)"/>
             <g class="wave-anim-1">
-              <path d="M-100 10 Q-50 -6 0 10 T100 10 T200 10 T300 10 T400 10 T500 10 L500 40 L-100 40 Z" fill="url(#waterGrad)" opacity="0.55"/>
+              <path d="M-100 10 Q-50 -6 0 10 T100 10 T200 10 T300 10 T400 10 T500 10 L500 40 L-100 40 Z" fill="url(#waterGrad)" opacity="0.75"/>
             </g>
             <g class="wave-anim-2">
-              <path d="M-100 14 Q-50 2 0 14 T100 14 T200 14 T300 14 T400 14 T500 14 L500 40 L-100 40 Z" fill="rgba(255,255,255,0.2)"/>
+              <path d="M-100 14 Q-50 2 0 14 T100 14 T200 14 T300 14 T400 14 T500 14 L500 40 L-100 40 Z" fill="rgba(255,255,255,0.28)"/>
             </g>
-            <ellipse cx="120" cy="16" rx="40" ry="2" fill="rgba(255,255,255,0.24)"/>
+            <ellipse cx="120" cy="16" rx="40" ry="2" fill="rgba(255,255,255,0.3)"/>
           </g>
         </g>
-
-        <!-- 釉光 -->
-        <path d="M58 128 Q58 348 180 360 Q302 348 302 128 Z" fill="url(#glaze)" opacity="0.5" pointer-events="none"/>
-
-        <!-- 口沿最上层描边 -->
-        <ellipse cx="180" cy="128" rx="122" ry="14" fill="none" stroke="#2e4f7a" stroke-width="1.2"/>
+        <ellipse class="bowl-rim" cx="180" cy="128" rx="122" ry="14"/>
+        <path d="M58 128 Q58 348 180 360 Q302 348 302 128" fill="none" stroke="rgba(44,51,54,0.35)" stroke-width="1"/>
       </svg>
     </div>
 
@@ -709,22 +661,7 @@ footer.main-footer{
       <button class="act" data-interval="60">60 分钟</button>
       <button class="act" data-interval="90">90 分钟</button>
     </div>
-    <div class="set-group">会议静默多久后自动回到深度专注 · 防止忘了切回来一直哑着 <span id="mb-current" class="mb-current"></span></div>
-    <div class="actions" style="justify-content:flex-start;flex-wrap:wrap">
-      <button class="act" data-meeting-back="30">30 分钟</button>
-      <button class="act" data-meeting-back="60">1 小时</button>
-      <button class="act" data-meeting-back="120">2 小时</button>
-      <button class="act" data-meeting-back="180">3 小时</button>
-      <button class="act" data-meeting-back="300">5 小时</button>
-      <button class="act" data-meeting-back="0">手动切回</button>
-    </div>
-    <div class="mb-custom">
-      <span>自定义</span>
-      <input id="mb-input" type="number" min="1" max="1440" placeholder="填分钟数">
-      <span>分钟</span>
-      <button class="act" id="mb-set">设为</button>
-      <span class="mb-hint">开长会就填大点,比如 240 = 4 小时</span>
-    </div>
+    <div class="set-group">开会怎么用 · 顶部点「会议中」就进入静默,并在下面黄条里选本场开多久,不用来设置里设</div>
     <div class="set-group">点右上角 × 时</div>
     <div class="actions" style="justify-content:flex-start">
       <button class="act" data-close-action="ask">每次询问</button>
@@ -922,8 +859,7 @@ $$(".state-switcher button").forEach(btn => {
     const st = btn.dataset.state;
     if(window.runn){ await window.runn.setStatus(st); }
     if(st === "meeting"){
-      const mb = state.meetingAutoBack === undefined ? 60 : state.meetingAutoBack;
-      showFlash(mb > 0 ? `已静音 · ${fmtDuration(mb)}后自动回到深度专注` : "已静音 · 记得散会后切回来");
+      showFlash("已进入会议静默 · 在上方黄条选这场会开多久");
     }
     else if(st === "focus") showFlash("深度专注 · 到点在右下角轻轻弹卡");
     else showFlash("空隙时刻 · 这就递一张卡片过来");
@@ -1051,15 +987,6 @@ function renderMeetingBar(){
 $$("#meeting-bar [data-mbar]").forEach(b => {
   b.addEventListener("click", () => applyMeetingBack(b.dataset.mbar));
 });
-$$("#settings-mask [data-meeting-back]").forEach(b => {
-  b.addEventListener("click", () => applyMeetingBack(b.dataset.meetingBack));
-});
-$("#mb-set").addEventListener("click", () => {
-  const raw = parseInt($("#mb-input").value, 10);
-  if(isNaN(raw) || raw < 1){ showFlash("请填一个大于 0 的分钟数"); return; }
-  applyMeetingBack(Math.min(1440, raw));
-});
-$("#mb-input").addEventListener("keydown", (e) => { if(e.key === "Enter") $("#mb-set").click(); });
 $$("#settings-mask [data-close-action]").forEach(b => {
   b.addEventListener("click", () => {
     const v = b.dataset.closeAction;
