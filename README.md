@@ -4,8 +4,15 @@
 
 戴师兄 AI 实战课第一节作业 · 作者:信信
 
-**在线体验(点开就能玩)**: https://xinxin1295.github.io/runn/
-**下载安装包**: [Releases](https://github.com/xinxin1295/runn/releases/latest) · Windows 已就绪,Mac 云端构建中
+## 点这里就能用
+
+| 我想… | 点这里 |
+|---|---|
+| 浏览器直接玩(最快,手机电脑都行) | **[▶ 打开在线版](https://xinxin1295.github.io/runn/)** |
+| 装到 Windows 电脑 | **[⬇ 下载 Windows / Mac 安装包(Releases)](https://github.com/xinxin1295/runn/releases/latest)** |
+| 装到 Mac 电脑 | 同上 Releases 页,选 `_mac.dmg` |
+
+> 桌面版装好后常驻托盘,到点在右下角弹小卡片提醒。首次打开被系统拦截是正常的(个人开发没买苹果/微软签名),按下面[下载与安装](#下载与安装)一步放行即可。
 
 ---
 
@@ -57,7 +64,13 @@
 
 **Windows**:到 [Releases](https://github.com/xinxin1295/runn/releases/latest) 下载 `润Runn_Setup_1.0.0.exe`,双击安装。首次运行自动加开机自启。Windows Defender 若拦截,点「更多信息 → 仍要运行」放行(个人开发无签名的正常现象)。
 
-**Mac**:到 Releases 下载 `.dmg`,双击打开拖进「应用程序」。首次打开右键点「打开」绕过 Gatekeeper。
+**Mac**:到 [Releases](https://github.com/xinxin1295/runn/releases/latest) 下载 `润Runn_1.0.0_mac.dmg`,双击打开,把「润 Runn」拖进「应用程序」文件夹。首次打开:
+
+1. 在「应用程序」里**右键点「润 Runn」→ 选「打开」→ 弹窗里再点「打开」**(不要直接双击,直接双击会被拦)。
+2. 如果是苹果芯片(M1/M2/M3)的 Mac,系统可能提示装 Rosetta,点「安装」等一下即可(一次性,本程序用 x64 架构,靠 Rosetta 在苹果芯片上运行)。
+3. 万一仍提示「已损坏」,打开「终端」粘这行回车再打开:`xattr -dr com.apple.quarantine "/Applications/润 Runn.app"`
+
+这套流程对所有没买苹果付费签名的个人应用都一样,不是程序本身的问题。
 
 ## 数据存哪
 
