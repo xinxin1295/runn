@@ -23,7 +23,7 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
-html,body{height:100%;background:transparent;overflow:hidden;user-select:none}
+html,body{background:transparent;overflow:hidden;user-select:none}
 body{
   font-family:var(--font-serif);
   color:var(--songyan);
@@ -41,7 +41,6 @@ body.leaving{animation:slideOut 0.4s var(--ease) both}
 }
 
 .card{
-  height:100%;
   background:var(--yuebai);
   border:1px solid var(--line);
   border-left:3px solid var(--tianqing-deep);
@@ -88,7 +87,7 @@ body.leaving{animation:slideOut 0.4s var(--ease) both}
 .whisper{
   font-family:var(--font-serif);font-weight:400;font-size:14px;
   line-height:1.65;color:var(--songyan);letter-spacing:0.03em;
-  padding:2px 0 4px;flex:1;
+  padding:2px 0 4px;min-height:23px;
 }
 
 .meta{
@@ -242,6 +241,14 @@ const CHECKIN_MSGS = [
 let autoTimer = null;
 let dismissed = false;
 
+// 让窗口高度贴合内容:文字换成两三行也不会把按钮顶出卡片
+function fitHeight(){
+  requestAnimationFrame(() => {
+    const h = Math.ceil(document.body.scrollHeight);
+    if(window.runn && window.runn.resizeMini) window.runn.resizeMini(h);
+  });
+}
+
 function dismiss(snoozeMinutes){
   if(dismissed) return;
   dismissed = true;
@@ -281,14 +288,21 @@ autoTimer = setTimeout(() => dismiss(0), 10000);
 if(window.runn){
   window.runn.onWhisper((text) => {
     $("#whisper").textContent = text;
+    fitHeight();
   });
   window.runn.onStateUpdate((s) => {
     $("#progress-text").textContent = `今日 ${s.ml} / ${s.target} ml`;
   });
   window.runn.getState().then(s => {
     $("#progress-text").textContent = `今日 ${s.ml} / ${s.target} ml`;
+    fitHeight();
   });
 }
+
+// 字体加载完、以及兜底延时,都再量一次高度
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fitHeight); }
+setTimeout(fitHeight, 120);
+setTimeout(fitHeight, 400);
 
 })();
 </script>

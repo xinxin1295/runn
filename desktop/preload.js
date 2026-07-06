@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld("runn", {
   getStartup: () => ipcRenderer.invoke("startup:get"),
   requestNotify: () => ipcRenderer.invoke("notify:request"),
   dismissMini: (payload) => ipcRenderer.invoke("mini:dismiss", payload || {}),
+  resizeMini: (h) => ipcRenderer.invoke("mini:resize", {h}),
   previewMini: () => ipcRenderer.invoke("mini:preview"),
   openMain: () => ipcRenderer.invoke("main:open"),
   hideMain: () => ipcRenderer.invoke("main:hide"),

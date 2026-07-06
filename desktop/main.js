@@ -326,17 +326,21 @@ function setStatus(status){
 
 function getStartupEnabled(){
   try{
-    return app.getLoginItemSettings().openAtLogin;
+    // 必须带上和 set 时一致的 path/args,否则查不到那条注册表项,状态会一直显示为关
+    return app.getLoginItemSettings({
+      path: process.execPath,
+      args: ["--hidden"]
+    }).openAtLogin;
   }catch(e){
-    return false;
+    return !!state.startupEnabled;
   }
 }
 
 function toggleStartup(){
-  const current = getStartupEnabled();
+  const next = !getStartupEnabled();
   try{
     app.setLoginItemSettings({
-      openAtLogin: !current,
+      openAtLogin: next,
       openAsHidden: true,
       path: process.execPath,
       args: ["--hidden"]
@@ -344,9 +348,11 @@ function toggleStartup(){
   }catch(e){
     console.error("开机自启设置失败", e);
   }
+  state.startupEnabled = next;
+  saveState();
   updateTrayMenu();
   pushState();
-  return !current;
+  return next;
 }
 
 function quitApp(){
@@ -383,6 +389,7 @@ app.whenReady().then(() => {
 
   if(state.firstRun){
     state.firstRun = false;
+    state.startupEnabled = true;
     saveState();
     try{
       app.setLoginItemSettings({
@@ -508,6 +515,22 @@ ipcMain.handle("mini:dismiss", (_e, {snooze}) => {
       if(miniWindow && !miniWindow.isDestroyed()) miniWindow.close();
     }, 200);
   }
+  return {ok: true};
+});
+
+ipcMain.handle("mini:resize", (_e, {h}) => {
+  if(!miniWindow || miniWindow.isDestroyed()) return {ok: false};
+  const display = screen.getPrimaryDisplay();
+  const wa = display.workArea;
+  const W = 340, margin = 16;
+  const newH = Math.max(140, Math.min(460, Math.round(h)));
+  // 贴右下角、向上生长,底边不动
+  miniWindow.setBounds({
+    x: wa.x + wa.width - W - margin,
+    y: wa.y + wa.height - newH - margin,
+    width: W,
+    height: newH
+  });
   return {ok: true};
 });
 
