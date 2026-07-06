@@ -16,8 +16,7 @@
   "afterPack": "./after-pack.js",
   "mac": {
     "target": [
-      { "target": "dmg", "arch": ["x64"] },
-      { "target": "zip", "arch": ["x64"] }
+      { "target": "dmg", "arch": ["x64"] }
     ],
     "icon": "assets/icon-512.png",
     "category": "public.app-category.healthcare-fitness",

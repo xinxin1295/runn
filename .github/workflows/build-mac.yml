@@ -49,13 +49,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: runn-mac-installer
-          path: |
-            desktop/release/*.dmg
-            desktop/release/*mac*.zip
+          path: desktop/release/*.dmg
 
       - name: Attach to v1.0.0 release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release upload v1.0.0 desktop/release/*.dmg --clobber || true
-          gh release upload v1.0.0 desktop/release/*mac*.zip --clobber || true
