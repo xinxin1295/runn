@@ -90,17 +90,19 @@
 ## 仓库结构
 
 ```
-├── README.md           项目总说明(你正在看的这份)
-├── index.html          网页版:在线体验的入口页面
-├── 产品设计说明.md      完整 PRD:用户画像 / 定位推导 / 内容库 / 验收清单
-├── desktop/            桌面版 Electron 源码
-│   ├── main.js         主进程:托盘 / 定时 / 窗口 / 开机自启
-│   ├── preload.js      渲染层安全桥
-│   └── renderer/       主窗口 + 右下角迷你卡片
-└── .github/            自动构建配置(GitHub 云端打 Mac 安装包)
+├── README.md              项目总说明(你正在看的这份)
+├── docs/                  网页版 + 产品文档(GitHub Pages 从这里发布在线版)
+│   ├── index.html         网页版:在线体验的入口页面
+│   └── 产品设计说明.md      完整 PRD:用户画像 / 定位推导 / 内容库 / 验收清单
+├── desktop/               桌面版 Electron 源码
+│   ├── main.js            主进程:托盘 / 定时 / 窗口 / 开机自启
+│   ├── preload.js         渲染层安全桥
+│   └── renderer/          主窗口 + 右下角迷你卡片
+└── .github/               自动构建配置(GitHub 云端打 Mac 安装包)
 ```
 
-> 安装包不放在源码里(体积大),统一在 [Releases](https://github.com/xinxin1295/runn/releases/latest) 下载。想快速上手看最上面的「点这里就能用」。
+- **在线体验** 就是 `docs/index.html` 发布的:https://xinxin1295.github.io/runn/
+- **两个安装包** 不放源码里(体积大),统一在 [Releases](https://github.com/xinxin1295/runn/releases/latest) 下载(Windows 下 exe,Mac 下 dmg)。
 
 ---
 
