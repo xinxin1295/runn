@@ -1,0 +1,30 @@
+{
+  "appId": "com.xinxin.runn",
+  "productName": "润 Runn",
+  "copyright": "Copyright © 2026 Xinxin",
+  "directories": {
+    "output": "release",
+    "buildResources": "assets"
+  },
+  "files": [
+    "main.js",
+    "preload.js",
+    "renderer/**/*",
+    "assets/**/*",
+    "package.json"
+  ],
+  "mac": {
+    "target": [
+      { "target": "dmg", "arch": ["universal"] },
+      { "target": "zip", "arch": ["universal"] }
+    ],
+    "icon": "assets/icon-512.png",
+    "category": "public.app-category.healthcare-fitness",
+    "identity": null,
+    "artifactName": "润Runn_${version}_mac.${ext}"
+  },
+  "dmg": {
+    "title": "润 Runn ${version}",
+    "artifactName": "润Runn_${version}_mac.dmg"
+  }
+}
