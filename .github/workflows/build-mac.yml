@@ -30,11 +30,20 @@ jobs:
         working-directory: desktop
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
-        run: npx electron-builder --mac --universal --config electron-builder-mac.json
+        run: npx electron-builder --mac --x64 --config electron-builder-mac.json
 
       - name: List artifacts
         working-directory: desktop
         run: ls -la release/
+
+      - name: Verify ad-hoc signature
+        working-directory: desktop
+        run: |
+          APP=$(find release -maxdepth 3 -name "*.app" | head -1)
+          echo "=== 校验 app: $APP ==="
+          codesign -dv --verbose=2 "$APP" 2>&1 || echo "codesign -dv 失败"
+          echo "=== 深度校验 ==="
+          codesign --verify --deep --strict --verbose=2 "$APP" 2>&1 && echo ">>> 签名有效 SIGN_OK" || echo ">>> 签名无效 SIGN_FAIL"
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
